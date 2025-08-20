@@ -1,0 +1,79 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+Endpoints: 
+Função: Criar uma turma
+Endpoint: /turmas
+Método: POST
+Código http: 201 created
+
+Função: buscar uma turma
+Endpoint: /turmas/{turmaId}
+Método: GET
+Código http: 200 ok
+
+- Busca de todos as turmas
+ - Endpoint sugerido: /turmas
+ - Adicionar validação caso não tenha nenhuma turma cadastrada
+
+- Busca de uma turma por nome
+ - Endpoint Sugerido: /turmas/{nome}
+ - Adicionar validação caso não tenha nenhuma turma com o nome informado
+
+- Busca de todas as turmas do periodo
+ - Endpoint Sugerido: /turmas/{periodo}
+ - Adicionar validação caso não tenha nenhuma turma com o período informado
+
+- Busca de todas as turmas do curso
+ - Endpoint Sugerido: /turmas/{curso}
+ - Adicionar validação caso não tenha nenhum curso com o nome informado
+
+- Deleção de uma turma por id
+ - Endpoint Sugerido: /turmas/{turmaId}
+ - Adicionar validação caso não tenha nenhum turma com o Id informado
+
+- Aplicar a arquitetura em Camadas como na estrutura abaixo:
+```
+│
+├── application     → Regras de caso de uso (orquestração)
+│   ├── service     → Serviços de aplicação (coordenam fluxos)
+│   └── dto         → Objetos de transferência (entrada/saída)
+│
+├── domain          → Regras de negócio (núcleo)
+│   ├── model       → Entidades e Value Objects
+│   ├── repository  → Interfaces de persistência (ports)
+│   └── service     → Serviços de domínio (lógica pura)
+│
+├── infrastructure  → Implementações técnicas
+│   ├── repository  → Implementações de persistência (JPA, JDBC…)
+│   ├── config      → Beans do Spring, segurança, etc.
+│   └── external    → Integrações com APIs externas
+│
+└── presentation    → Interface com o mundo externo
+    ├── rest        → Controllers (API REST)
+    ├── handler     → Exception handlers, interceptadores
+    └── mapper      → Conversões DTO ↔ Entidades
+```
+
+*** Validações ***
+ - As validações descritas acima, são exceções que voce irá lançar caso ocorra algum dos cenários descritos, adicione quantos achar necessário para melhorar ainda mais suas APIs.
+
+
+Persistência de Dados: 
+  - Conecte a aplicação a um banco de dados (PostgreSQL) usando Spring Data JPA. Todas as operações devem ser persistidas no banco.  
+  - Realizar a conexão com um banco de dados (Postgres) usando a dependencia do spring-boot-starter-data-jpa, e o driver do banco de dados que escolheu, já criando as tabelas do projeto.
+
+Tratamento de Erros 
+  - Faça com que os endpoints de busca por ID e deleção retornem 404 Not Found se o ID não existir.
+  - Implemente validações no endpoint de criação (POST) para retornar 400 Bad Request se dados essenciais (como o nome) não forem enviados.
+
+- Deixe o código totalmente livre de comentários. Eu gosto dos métodos, classes e atributos nomeados em inglês, mas as mensagens podem ser em português.
+
+- Faça um readme ensinando exatamente como executar o projeto.
+
+- Não faça testes unitários.
+
+- Faça um swagger compatível com a versão do Spring do projeto.
